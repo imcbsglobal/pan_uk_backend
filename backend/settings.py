@@ -80,7 +80,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "pan_uk_db",       # e.g. myprojectdb
         "USER": "postgres",       # e.g. postgres
-        "PASSWORD": "1234",  # e.g. admin123
+        "PASSWORD": "sajith@2003",  # e.g. admin123
         "HOST": "localhost",          # or server IP
         "PORT": "5432",               # default PostgreSQL port
     }
@@ -102,6 +102,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+INSTALLED_APPS += ["corsheaders"]
+MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware"] + MIDDLEWARE
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",      # Vite default
 ]
 
 
