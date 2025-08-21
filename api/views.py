@@ -122,3 +122,29 @@ class UserLoginView(APIView):
             return Response({
                 "error": "Invalid username or password"
             }, status=status.HTTP_401_UNAUTHORIZED)
+        
+
+
+
+
+# app/views.py
+from rest_framework import viewsets, permissions, parsers
+from .models import Product
+from .serializers import ProductSerializer, ProductCreateSerializer
+
+class IsAdminOrReadOnly(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return bool(request.user and request.user.is_staff)
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all().order_by('-created_at')
+    permission_classes = [IsAdminOrReadOnly]
+    parser_classes = [parsers.MultiPartParser, parsers.FormParser, parsers.JSONParser]
+
+    def get_serializer_class(self):
+        # Use ProductCreateSerializer for create AND update so it accepts images on edit
+        if self.request.method in ('POST', 'PUT', 'PATCH'):
+            return ProductCreateSerializer
+        return ProductSerializer
