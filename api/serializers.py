@@ -15,6 +15,7 @@ class ProductImageSerializer(serializers.ModelSerializer):
         model = ProductImage
         fields = ['id', 'image']
 
+# app/serializers.py
 class ProductSerializer(serializers.ModelSerializer):
     images = ProductImageSerializer(many=True, read_only=True)
 
@@ -22,18 +23,28 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = [
             'id', 'main_category', 'sub_category', 'name', 'price', 'brand', 'material',
+            # ✅ NEW
+            'model_name', 'cotton_percentage',
+            # …
             'color', 'size', 'weight', 'description', 'images', 'created_at'
         ]
 
     def validate(self, attrs):
+        # keep your main/sub validation
         main = attrs.get('main_category') or self.instance.main_category
-        sub = attrs.get('sub_category') or self.instance.sub_category
+        sub  = attrs.get('sub_category')  or self.instance.sub_category
         valid_subs = CATEGORY_MAP.get(main, [])
         if sub not in valid_subs:
             raise serializers.ValidationError(
                 {'sub_category': f'"{sub}" is not a valid sub category for "{main}".'}
             )
+
+        # ✅ NEW cotton% check (only if provided)
+        cp = attrs.get('cotton_percentage')
+        if cp is not None and (cp < 0 or cp > 100):
+            raise serializers.ValidationError({'cotton_percentage': 'Must be between 0 and 100.'})
         return attrs
+
 
 
 class ProductCreateSerializer(ProductSerializer):

@@ -1,10 +1,5 @@
 from django.db import models
-
-# Create your models here.
-
-
-# app/models.py
-from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 class Product(models.Model):
     MAIN_CATEGORY_CHOICES = [
@@ -38,6 +33,11 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=12, decimal_places=2)
     brand = models.CharField(max_length=120, blank=True)
     material = models.CharField(max_length=120, blank=True)
+    model_name = models.CharField(max_length=120, blank=True)
+    cotton_percentage = models.PositiveSmallIntegerField(
+        null=True, blank=True,
+        validators=[MinValueValidator(0), MaxValueValidator(100)]
+    )
     color = models.CharField(max_length=60, blank=True)
     size = models.CharField(max_length=60, blank=True)
     weight = models.CharField(max_length=60, blank=True)
