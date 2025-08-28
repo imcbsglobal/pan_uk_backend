@@ -82,7 +82,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "pan_uk_db",       # e.g. myprojectdb
         "USER": "postgres",       # e.g. postgres
-        "PASSWORD": "sajith@2003",  # e.g. admin123
+        "PASSWORD": "info@imc",  # e.g. admin123
         "HOST": "localhost",          # or server IP
         "PORT": "5432",               # default PostgreSQL port
     }
