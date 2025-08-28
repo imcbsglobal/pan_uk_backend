@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-*tt!8h)@7#5*qv00p^h#_9yqlgu$i=i#!7#+ga4#_!gy-(=4rz
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['panukonline.com', 'www.panukonline.com','*']
+
+CSRF_TRUSTED_ORIGINS = ["https://panukonline.com", "https://www.panukonline.com"]
 
 
 # Application definition
@@ -129,8 +131,12 @@ USE_TZ = True
 STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
